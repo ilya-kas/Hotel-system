@@ -1,0 +1,21 @@
+{
+  "name": "hotel",
+  "version": "1.0.0",
+  "description": "MPP project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node ./src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KKSh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "pg-promise": "^10.11.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.25"
+  }
+}
