@@ -9,4 +9,8 @@ export interface Dish {
     name: string
     description: string
     price: number
+    products: Array<{
+        name: string,
+        count: number
+    }>
 }

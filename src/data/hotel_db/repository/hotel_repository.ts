@@ -8,181 +8,146 @@ import {
     RentDoc,
     RoomLoadDoc
 } from "../../../logic/entity/docs";
-import {Room, RoomCleaning} from "../../../logic/entity/rooms_info";
-import {Credentials, User} from "../../../logic/entity/user_info";
-import {DeliveredProduct, DishInMenu, DishInOrder, ProductInDish} from "../../../logic/entity/others";
+import {User, Role, Worker} from "../../../logic/entity/user_info";
 import {Dish, Product} from "../../../logic/entity/products_info";
+
+import {IHotelRepository} from "./repo_interfaces"
 
 const dao = require('../source/hotel_dao')
 
-interface IAllRepository{
-    getRentDocs(): Promise<Array<RentDoc>>
-    getRooms(): Promise<Array<Room>>
-    getCleaningSchedules(): Promise<Array<CleaningSchedule>>
-    getCredentials(): Promise<Array<Credentials>>
-    getUsers(): Promise<Array<User>>
-    getRoomCleanings(): Promise<Array<RoomCleaning>>
-    getDismissals(): Promise<Array<Dismissal>>
-    getRecruitments(): Promise<Array<Recruitment>>
-    getRoomsLoadDocs(): Promise<Array<RoomLoadDoc>>
-    getDeliveries(): Promise<Array<Delivery>>
-    getDeliveredProduct(): Promise<Array<DeliveredProduct>>
-    getProfitDocs(): Promise<Array<ProfitDoc>>
-    getProducts(): Promise<Array<Product>>
-    getDishes(): Promise<Array<Dish>>
-    getMenu(): Promise<Array<Menu>>
-    getProductInDish(): Promise<Array<ProductInDish>>
-    getDishInOrder(): Promise<Array<DishInOrder>>
-    getDishInMenu(): Promise<Array<DishInMenu>>
-    getOrders(): Promise<Array<Order>>
-}
 
-export class HotelRepository implements IAllRepository{
-    async getRentDocs(): Promise<RentDoc[]> {
-        const models = await dao.getRentDocs()
-        const entities : Array<RentDoc> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-          entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getRooms(): Promise<Room[]> {
-        const models = await dao.getRooms()
-        const entities : Array<Room> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getCleaningSchedules(): Promise<CleaningSchedule[]> {
-        const models = await dao.getCleaningSchedules()
-        const entities : Array<CleaningSchedule> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getCredentials(): Promise<Credentials[]> {
-        const models = await dao.getCredentials()
-        const entities : Array<Credentials> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getRoomCleanings(): Promise<RoomCleaning[]> {
-        const models = await dao.getRoomCleanings()
-        const entities : Array<RoomCleaning> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDismissals(): Promise<Dismissal[]> {
-        const models = await dao.getDismissals()
-        const entities : Array<Dismissal> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getRecruitments(): Promise<Recruitment[]> {
-        const models = await dao.getRecruitments()
-        const entities : Array<Recruitment> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getRoomsLoadDocs(): Promise<RoomLoadDoc[]> {
-        const models = await dao.getRoomsLoadDocs()
-        const entities : Array<RoomLoadDoc> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDeliveries(): Promise<Delivery[]> {
-        const models = await dao.getDeliveries()
-        const entities : Array<Delivery> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDeliveredProduct(): Promise<DeliveredProduct[]> {
-        const models = await dao.getDeliveredProduct()
-        const entities : Array<DeliveredProduct> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getProfitDocs(): Promise<ProfitDoc[]> {
-        const models = await dao.getProfitDocs()
-        const entities : Array<ProfitDoc> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getProducts(): Promise<Product[]> {
-        const models = await dao.getProducts()
-        const entities : Array<Product> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDishes(): Promise<Dish[]> {
-        const models = await dao.getDishes()
-        const entities : Array<Dish> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getMenu(): Promise<Menu[]> {
-        const models = await dao.getMenu()
-        const entities : Array<Menu> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getProductInDish(): Promise<ProductInDish[]> {
-        const models = await dao.getProductInDish()
-        const entities : Array<ProductInDish> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDishInOrder(): Promise<DishInOrder[]> {
-        const models = await dao.getDishInOrder()
-        const entities : Array<DishInOrder> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getDishInMenu(): Promise<DishInMenu[]> {
-        const models = await dao.getDishInMenu()
-        const entities : Array<DishInMenu> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
-    }
-    async getOrders(): Promise<Order[]> {
-        const models = await dao.getOrders()
-        const entities : Array<Order> = Array(models.length)
-        for (let i = 0; i < models.length; i++) {
-            entities[i] = models[i].toEntity()
-        }
-        return entities;
+export class HotelRepository implements IHotelRepository{
+
+    addDishToMenu(name: string) {
+        dao.addDishToMenu(name)
     }
 
+    addToDish(dish: string, product: string) {
+        dao.addToDish(dish, product)
+    }
+
+    addToOrder(table: number, dish: string) {
+        dao.addToOrder(table, dish)
+    }
+
+    addToStorage(product: string) {
+
+    }
+
+    bookRoom(doc: RentDoc) {
+        dao.bookRoom(doc)
+    }
+
+    createDish(name: string, description: string, price: number){
+        dao.createDish(name)
+    }
+
+    createOrder(order: Order) {
+        dao.createOrder(order)
+    }
+
+    fire(name: string, reason: string) {
+        dao.fire(name, reason)
+    }
+
+    getBookings(login: string): Array<RentDoc> {
+        return dao.getBookings(login);
+    }
+
+    getBookingsOfLastMonth(): Array<RentDoc> {
+
+        return undefined;
+    }
+
+    getCleaningSchedule(date: string): CleaningSchedule {
+
+        return undefined;
+    }
+
+    getDish(name: string): Dish {
+        return dao.getDish(name);
+    }
+
+    getMenu(date: string): Menu {
+        return dao.getMenu(date);
+    }
+
+    getOrders(): Array<Order> {
+        return dao.getOrders();
+    }
+
+    getOrdersOfLastMonth(): Array<Order> {
+
+        return undefined;
+    }
+
+    getPasswordHash(login: string): string {
+        return dao.getPasswordHash(login);
+    }
+
+    getPersonal(): Array<Worker> {
+
+        return undefined;
+    }
+
+    getSuppliesOfLastMonth(): Array<Delivery> {
+
+        return undefined;
+    }
+
+    getUser(login: string): User {
+
+        return undefined;
+    }
+
+    getUserRole(login: string): Role {
+
+        return undefined;
+    }
+
+    hire(login: string, user: User) {
+
+    }
+
+    loadStorage(): Array<Product> {
+
+        return undefined;
+    }
+
+    loginExists(login: string): boolean {
+        return dao.loginExists(login);
+    }
+
+    register(user: User) {
+        dao.register(user)
+    }
+
+    removeDishFromMenu(name: string) {
+    }
+
+    removeFromDish(dish: string, product: string) {
+    }
+
+    removeFromOrder(table: number, dish: string) {
+    }
+
+    removeFromStorage(product: string) {
+    }
+
+    submitOrder(table: number) {
+    }
+
+    updateDayInSchedule(date: string, status: boolean) {
+    }
+
+    updatePersonalInfo(user: User) {
+
+    }
+
+    saveBookedByTypesDoc(doc: RoomLoadDoc) {
+    }
+
+    /*
     async getUsers(): Promise<Array<User>> {
         const userModels = await dao.getUsers()
         const entities : Array<User> = Array(userModels.length)
@@ -190,6 +155,6 @@ export class HotelRepository implements IAllRepository{
           entities[i] = userModels[i].toEntity()
         }
         return entities;
-    }
+    }*/
 
 }

@@ -1,14 +1,12 @@
 export interface Room {
     number: number
     room_count: number
-    type: number
+    type: RoomType
     client_id: number
 }
 
-export interface RoomCleaning {
-    id: number
-    cleaned: boolean
-    room_id: number
-    responsible_id: number
-    schedule_id: number
+export enum RoomType{
+    CHEAP = 100, //цена
+    REGULAR = 200,
+    VIP = 300
 }

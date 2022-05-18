@@ -1,6 +1,14 @@
 // @ts-ignore
 import * as express from 'express'
-import {router} from "./lab2router"
+import {cleaningRouter} from "./routers/cleaning_router"
+import {enterRouter} from "./routers/enter_router"
+import {menuRouter} from "./routers/menu_router"
+import {ordersRouter} from "./routers/orders_router"
+import {personalRouter} from "./routers/personal_router"
+import {reportsRouter} from "./routers/reports_router"
+import {roomsRouter} from "./routers/rooms_router"
+import {storageRouter} from "./routers/storage_router"
+import {userRouter} from "./routers/user_router"
 
 const port = 5000
 
@@ -12,7 +20,17 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use("/", router)
+app.use(express.json());
+app.use(express.urlencoded());
 
-//app.listen(port, '192.168.200.68')
-app.listen(port, '192.168.200.68')
+app.use("/cleaning", cleaningRouter)
+app.use("/enter", enterRouter)
+app.use("/menu", menuRouter)
+app.use("/orders", ordersRouter)
+app.use("/personal", personalRouter)
+app.use("/reports", reportsRouter)
+app.use("/rooms", roomsRouter)
+app.use("/storage", storageRouter)
+app.use("/user", userRouter)
+
+app.listen(port, '192.168.217.68')

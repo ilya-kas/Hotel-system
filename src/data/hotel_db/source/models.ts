@@ -8,8 +8,8 @@ import {
     RentDoc,
     RoomLoadDoc
 } from "../../../logic/entity/docs";
-import {Room, RoomCleaning} from "../../../logic/entity/rooms_info";
-import {Credentials, User} from "../../../logic/entity/user_info";
+import {Room} from "../../../logic/entity/rooms_info";
+import {User, Role} from "../../../logic/entity/user_info";
 import {DeliveredProduct, DishInMenu, DishInOrder, ProductInDish} from "../../../logic/entity/others";
 import {Dish, Product} from "../../../logic/entity/products_info";
 
@@ -21,8 +21,12 @@ export class UserModel{
     passport_number: number
     passport_series: string
     role: number
+    credentials: {
+        login: string,
+        password: string
+    }
 
-    constructor(id, mail, name, surname, passport_number, passport_series, role) {
+    constructor(id, mail, name, surname, passport_number, passport_series, role, credentials) {
         this.id = id
         this.mail = mail
         this.name = name
@@ -30,10 +34,12 @@ export class UserModel{
         this.passport_number = passport_number
         this.passport_series = passport_series
         this.role = role
+        this.credentials = credentials
     }
 
     toEntity(): User{
         return {
+            credentials: this.credentials,
             id: this.id,
             mail: this.mail,
             name: this.name,
@@ -45,7 +51,7 @@ export class UserModel{
     }
 }
 
-export class CredentialsModel{
+/*export class CredentialsModel{
     owner_id: number
     login: string
     password: string
@@ -63,20 +69,20 @@ export class CredentialsModel{
             password: this.password
         }
     }
-}
+}*/
 
 export class RentDocModel{
     id: number
-    start_date: Date
-    end_date: Date
-    room_id: number
+    start_date: string
+    end_date: string
+    room: RoomModel
     client_id: number
 
-    constructor(id, start_date, end_date, room_id, client_id) {
+    constructor(id, start_date, end_date, room, client_id) {
         this.id = id
         this.start_date = start_date
         this.end_date = end_date
-        this.room_id = room_id
+        this.room = room
         this.client_id = client_id
     }
 
@@ -85,7 +91,7 @@ export class RentDocModel{
             id: this.id,
             start_date: this.start_date,
             end_date: this.end_date,
-            room_id: this.room_id,
+            room: this.room.toEntity(),
             client_id: this.client_id,
         }
     }
@@ -116,25 +122,32 @@ export class RoomModel {
 
 export class CleaningScheduleModel {
     id: number
-    date: Date
+    date: string
     closed: boolean
+    days: Array<{
+        day: number,
+        responsible_id: number,
+        cleaned: boolean
+    }>
 
-    constructor(id, date, closed) {
+    constructor(id, date, closed, days) {
         this.id = id
         this.date = date
         this.closed = closed
+        this.days = days
     }
     toEntity(): CleaningSchedule{
         return {
             id: this.id,
             date: this.date,
             closed: this.closed,
+            days: this.days
         }
     }
 
 }
 
-export class RoomCleaningModel {
+/*export class RoomCleaningModel {
     id: number
     cleaned: boolean
     room_id: number
@@ -157,12 +170,12 @@ export class RoomCleaningModel {
             schedule_id: this.schedule_id,
         }
     }
-}
+}*/
 
 export class DismissalModel {
     id: number
     reason: string
-    date: Date
+    date: string
     employee_id: number
 
     constructor(id, reason, date, employee_id) {
@@ -183,8 +196,8 @@ export class DismissalModel {
 
 export class RecruitmentModel {
     id: number
-    begin_date: Date
-    end_date: Date
+    begin_date: string
+    end_date: string
     role: number
     salary: number
     employee_id: number
@@ -211,13 +224,13 @@ export class RecruitmentModel {
 
 export class RoomLoadDocModel {
     id: number
-    start_date: Date
-    end_date: Date
-    stats: string/*{
+    start_date: string
+    end_date: string
+    stats: {
         cheap: number,
         normal: number,
         rich: number
-    }*/
+    }
 
     constructor(id, start_date, end_date, stats) {
         this.id = id
@@ -237,8 +250,8 @@ export class RoomLoadDocModel {
 
 export class ProfitDocModel {
     id: number
-    start_date: Date
-    end_date: Date
+    start_date: string
+    end_date: string
     rooms_income: number
     restaurant_income: number
     salaries: number
@@ -271,19 +284,28 @@ export class ProfitDocModel {
 
 export class DeliveryModel {
     id: number
-    date: Date
+    date: string
     supplier: string
+    sum: number
+    products: Array<{
+        name: string,
+        count: number
+    }>
 
-    constructor(id, date, supplier) {
+    constructor(id, date, supplier, sum, products) {
         this.id = id
         this.date = date
         this.supplier = supplier
+        this.sum = sum
+        this.products = products
     }
     toEntity(): Delivery{
         return {
             id: this.id,
             date: this.date,
             supplier: this.supplier,
+            sum: this.sum,
+            products: this.products,
         }
     }
 }
@@ -359,12 +381,17 @@ export class DishModel {
     name: string
     description: string
     price: number
+    products: Array<{
+        name: string,
+        count: number
+    }>
 
-    constructor(id, name, description, price) {
+    constructor(id, name, description, price, products) {
         this.id = id
         this.name = name
         this.description = description
         this.price = price
+        this.products = products
     }
     toEntity(): Dish{
         return {
@@ -372,7 +399,7 @@ export class DishModel {
             name: this.name,
             description: this.description,
             price: this.price,
-
+            products: this.products,
         }
     }
 }
@@ -401,17 +428,22 @@ export class DishInOrderModel {
 
 export class MenuModel {
     id: number
-    date: Date
+    date: string
+    dishes: Array<{
+        name: string,
+        price: number
+    }>
 
-    constructor(id, date) {
+    constructor(id, date, dishes) {
         this.id = id
         this.date = date
+        this.dishes = dishes
     }
     toEntity(): Menu{
         return {
             id: this.id,
             date: this.date,
-
+            dishes: this.dishes,
         }
     }
 }
@@ -438,14 +470,21 @@ export class DishInMenuModel {
 export class OrderModel {
     id: number
     table: number
-    constructor(id, table) {
+    dishes: Array<{
+        name: string,
+        count: number
+    }>
+
+    constructor(id, table, dishes) {
         this.id = id
         this.table = table
+        this.dishes = dishes
     }
     toEntity(): Order{
         return {
             id: this.id,
             table: this.table,
+            dishes: this.dishes,
         }
     }
 }

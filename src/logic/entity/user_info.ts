@@ -5,11 +5,21 @@ export interface User{
     surname: string
     passport_number: number
     passport_series: string
-    role: number
+    role: Role
+    credentials: {
+        login: string,
+        password: string
+    }
 }
 
-export interface Credentials{
-    owner_id: number
-    login: string
-    password: string
+export interface Worker extends User{
+    salary: number
+}
+
+export enum Role{
+    USER,
+    MANAGER,
+    CHEF,
+    WAITER,
+    CLEANER
 }
